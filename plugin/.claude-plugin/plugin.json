@@ -1,5 +1,22 @@
 {
   "name": "brand-bond-os",
-  "version": "1.0.0",
-  "description": "Brand & Bond studio OS — Neo master agent with brand strategy, identity, copywriting, digital product, and studio ops skills."
+  "version": "1.2.0",
+  "description": "Brand & Bond studio OS — Neo master agent with brand strategy, identity, copywriting, digital product, and studio ops skills.",
+  "commands": [
+    "./commands/brand-brief",
+    "./commands/client-update",
+    "./commands/concept",
+    "./commands/discovery",
+    "./commands/naming",
+    "./commands/proposal"
+  ],
+  "agents": [
+    "./agents/NEO.md",
+    "./agents/wonn-brand-dna.md",
+    "./agents/wonn-copywriter.md",
+    "./agents/wonn-doc-producer.md",
+    "./agents/wonn-radar.md",
+    "./agents/wonn-social.md",
+    "./agents/wonn-strategist.md"
+  ]
 }
