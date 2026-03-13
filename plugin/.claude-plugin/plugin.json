@@ -1,6 +1,6 @@
 {
   "name": "brand-bond-os",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Brand & Bond studio OS — Neo master agent with brand strategy, identity, copywriting, digital product, and studio ops skills.",
   "commands": [
     "./commands/brand-brief",
