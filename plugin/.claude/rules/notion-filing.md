@@ -17,10 +17,10 @@ Her üretilen çıktı Notion'a kaydedilir. Kullanıcı istemese bile — üreti
 | Sayfa | Notion ID | Ne için |
 |---|---|---|
 | Wonn - Payment (Wiki DB) | `collection://2ca02474-a137-8068-bd51-000b0a193e90` | Ana hub, tüm Wonn belgeleri |
-| **Wonn — Kimlik Kartı** | `32202474-a137-81b6-9dd2-febf2d963527` | Canonical kimlik referansı (Katman 1) |
+| **Wonn — Kimlik Kartı** | `32202474-a137-81bf-9edf-df16c1768a91` | Canonical kimlik referansı (Katman 1) |
 | Brand DNA (tam belge) | `31c02474-a137-80af-afb2-c729a3603959` | Tüm sectionlar, detaylı referans |
 | wonnpay.com | `32102474-a137-8039-b8fd-fd5f126b9104` | Web sitesi içerikleri |
-| Template — Brand Kimlik Kartı | `32202474-a137-8121-9508-d72a1c4ce0af` | Yeni marka onboardı için şablon |
+| Template — Brand Kimlik Kartı | `32202474-a137-818e-8485-f28d7e6d0693` | Yeni marka onboardı için şablon |
 
 ---
 
