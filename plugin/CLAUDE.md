@@ -64,3 +64,25 @@ Strateji: Claude · Ops: Linear · Notion · Slack · Xmind
 Tasarım: Figma · Framer · ProtoPie · Rive · Cavalry · Spline
 3D: Cinema 4D · Blender · Plasticity · Shapr3D
 Kod: Cursor · Antigravity
+
+---
+
+## Plugin Dosya Yapısı
+
+NEO agent ve rule dosyalarını okuyup güncelleyebilir. Kaynak repo:
+
+```
+/Users/vagabond/Desktop/Cursor/brand-bond-os/
+├── plugin/
+│   ├── CLAUDE.md
+│   ├── agents/          ← NEO.md, wonn-*.md
+│   ├── skills/          ← bb-*.md
+│   ├── commands/        ← brand-brief, discovery vb.
+│   └── .claude/rules/   ← wonn, brand-work, notion-filing vb.
+└── .claude-plugin/
+    └── marketplace.json
+```
+
+Git: `brandbondco/brand-bond-os` · Branch: `main`
+Her değişiklikten sonra: `git add . → git commit → git push`
+Plugin güncelleme: `/plugin marketplace update brand-bond-os`
