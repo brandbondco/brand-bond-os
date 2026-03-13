@@ -1,47 +1,43 @@
 ---
 name: bb-dp-spline
-description: "Activate for 3D web experiences, interactive 3D scenes, and Spline exports for web embedding. Also activates when evaluating whether a 3D element is appropriate for a web context."
+version: 1.0
+updated: 2026-03
+status: active
 ---
 
 # bb-dp-spline
 
-3D on the web is a performance decision as much as a design decision. Every polygon has a cost.
+Spline brings 3D to the web. Use it deliberately — 3D adds cost (performance, complexity) and must add equivalent value.
 
----
+## When to Use Spline
 
-## Core Principle
+- Hero moments that require 3D brand differentiation
+- Interactive product visualization
+- Scroll-driven 3D sequences
+- WebGL-based brand identity expressions
 
-Web 3D must earn its performance budget. Beautiful 3D that slows the page to 2fps has failed. Optimize relentlessly.
+## When NOT to Use Spline
 
----
-
-## When Spline is the Right Choice
-
-| Context | Spline fit |
-|---|---|
-| Hero 3D element, marketing site | ✅ |
-| Interactive product visualization | ✅ |
-| Brand signature 3D object | ✅ |
-| Complex 3D scene with many objects | ⚠️ Optimize carefully |
-| Mobile-primary audience | ⚠️ Test performance first |
-| Core content (not enhancement) | ❌ Too risky for load time |
-
----
+- When CSS animation achieves the same effect
+- When load time matters more than visual richness
+- When the client's audience is on low-powered devices
 
 ## Performance Standards
 
-Before export:
-- [ ] Polygon count minimized (use LOD if needed)
-- [ ] Textures compressed
-- [ ] Unused objects deleted
-- [ ] Tested on mid-range mobile device
-- [ ] Fallback defined for low-performance devices
+- Scene file size: under 5MB for web deployment
+- Polygon count: optimize aggressively
+- Texture resolution: 1024×1024 max for web
+- Test on mid-range mobile — not just MacBook Pro
+- Lazy load 3D scenes — never block page render
 
-Target: Spline scene loads in under 2 seconds on a standard connection.
+## Export Options
 
----
+- Spline Viewer embed (easiest, larger bundle)
+- Export as code (React / vanilla JS) for performance control
+- Export as video fallback for unsupported environments
 
-## Push Back Triggers
+## Handoff
 
-**"Add more 3D elements to the page"**
-> Each 3D element multiplies load time. What's the performance budget? Let's decide how much 3D the experience can support before adding more.
+- `bb-dp-framer` — Spline embedded in Framer
+- `bb-dp-cursor-antigravity` — Spline in custom code
+- `bb-dp-3d` — if complex 3D requires Cinema 4D or Blender source

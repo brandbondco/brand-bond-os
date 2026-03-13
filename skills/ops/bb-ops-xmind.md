@@ -1,49 +1,36 @@
 ---
 name: bb-ops-xmind
-description: "Activate for mind mapping, idea architecture, brief visualization, and structuring complex information spatially. Use when a problem needs to be mapped before it can be solved."
+description: "Activate for mind mapping, idea architecture, brief visualization, and when complex information needs to be structured before it can be acted on."
 ---
 
 # bb-ops-xmind
 
-A mind map is a thinking tool, not a presentation tool. Use it to find structure — then communicate that structure in a better format.
+Mind maps are thinking tools, not presentation tools. Use them to find structure — not to show that you worked.
 
----
+## When to Use XMind
 
-## Core Principle
+- Brief dissection — mapping what a brief is actually asking for
+- Idea generation — exploring territory before committing to direction
+- System mapping — visualizing how a brand system connects
+- Competitive landscape — mapping competitor positions visually
+- Project planning — seeing dependencies before Linear setup
 
-When a problem is too complex to hold in a linear list, map it. The spatial layout reveals relationships that bullet points hide.
+## When NOT to Use XMind
 
----
+- Client presentations → use `bb-presentation` instead
+- Task tracking → Linear
+- Documentation → Notion
 
-## When to Map
+## Map Structure Standards
 
-| Use case | Fit |
-|---|---|
-| Structuring a discovery brief | ✅ |
-| Mapping competitor landscape | ✅ |
-| Organizing presentation narrative | ✅ |
-| Generating naming options | ✅ |
-| Task list | ❌ Use Linear |
-| Client deliverable | ❌ Use Notion/slides |
+- Central node: the core question or goal, not the project name
+- First level: major dimensions (audience, market, identity, ops)
+- Second level: specific elements within each dimension
+- Third level: detail only where needed — don't over-expand
 
-Mind maps are internal thinking tools. They rarely leave the studio in their raw form.
+## Output
 
----
-
-## Map Structure Convention
-
-```
-Central node    → The core question or project name
-Level 1         → Major themes or categories (max 6)
-Level 2         → Specific elements under each theme
-Level 3         → Details, only when necessary
-```
-
-A map with more than 3 levels is usually a map that needs to be split into two maps.
-
----
-
-## Naming Convention
-
-Files: `[Client]-[Topic]-[Date].xmind`
-Example: `wonn-positioning-2026-03.xmind`
+XMind maps are inputs to other work:
+- Brief map → feeds `bb-discovery` output
+- Idea map → feeds `bb-brand-strategy` territories
+- System map → feeds `bb-design-system` architecture

@@ -1,50 +1,43 @@
 ---
 name: bb-dp-rive
-description: "Activate for interactive animations in web and mobile, state machine design, and runtime animation that responds to user input. Use when animation needs to be more than decorative — when it needs to respond, branch, or carry logic."
+version: 1.0
+updated: 2026-03
+status: active
 ---
 
 # bb-dp-rive
 
-Rive is for animation that thinks. If the animation doesn't respond to anything, use Lottie or CSS. Use Rive when state matters.
-
----
+Rive animations are stateful. They respond. Design them like UI, not like video.
 
 ## Core Principle
 
-Rive animations are mini-applications. They have states, transitions, and inputs. Design the state machine before touching the timeline.
+Every Rive animation has a job. Define the job before designing the motion.
 
----
+## State Machine Design
 
-## State Machine First
-
-Before animating:
 ```
-1. List all states (idle, hover, active, loading, success, error)
-2. Define transitions between states (what triggers them?)
-3. Define inputs (boolean, number, trigger)
-4. Map inputs to transitions
+States    → idle / hover / active / loading / success / error
+Inputs    → boolean (on/off) / number (value) / trigger (fire once)
+Transitions → timing + easing per transition pair
 ```
 
-An animation built without a state machine plan will be rebuilt.
+Design all states before animating transitions. Missing states break production.
 
----
+## Motion Standards
 
-## When Rive is the Right Choice
+- Duration: UI micro-interactions 150-300ms. Illustrative animations 400-800ms.
+- Easing: ease-out for entrances, ease-in for exits, ease-in-out for loops
+- Loop animations: seamless. Test the loop point.
+- File size: optimize before export. Heavy Rive files hurt performance.
 
-| Use case | Rive fit |
-|---|---|
-| Icon with hover/active state | ✅ |
-| Loading animation with success/error states | ✅ |
-| Character with multiple behaviors | ✅ |
-| Interactive brand element | ✅ |
-| Simple one-shot animation | ❌ Use Lottie/CSS |
-| Video-style hero animation | ❌ Use video/CSS |
+## Export & Integration
 
----
+- Export as .riv
+- Document all input names for developer handoff
+- Provide fallback PNG for environments without Rive runtime
 
-## Export Standards
+## Handoff
 
-- Artboard size matches intended display size
-- All unused assets removed before export
-- State machine inputs documented for developer
-- Test in Rive runtime (not just editor) before handoff
+- `bb-visual-production` — animation brief before Rive production
+- `bb-dp-framer` — Rive embedded in Framer build
+- `bb-dp-cursor-antigravity` — Rive in custom code

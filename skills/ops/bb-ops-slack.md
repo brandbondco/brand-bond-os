@@ -1,65 +1,32 @@
 ---
 name: bb-ops-slack
-description: "Activate for team communication setup, Slack channel architecture, message templates, and async communication standards. Also activates when team communication is creating confusion or information is getting lost."
+description: "Activate for team communication structure, Slack channel setup, message templates, async communication standards, and studio communication protocols."
 ---
 
 # bb-ops-slack
 
-Slack is an async communication tool, not a real-time chat. Treat it accordingly.
+Communication structure is ops infrastructure. Bad channels, bad norms = missed information, missed decisions.
 
----
+## Channel Structure (Brand & Bond)
 
-## Channel Architecture
+| Channel | Purpose |
+|---|---|
+| #studio-general | Studio-wide updates, announcements |
+| #projects-[client] | Per-client work threads |
+| #design-review | Design feedback and approvals |
+| #ops | Invoices, contracts, admin |
+| #ideas | References, inspiration, thinking-out-loud |
 
-### Brand & Bond Standard Structure
-```
-#general          → Studio-wide announcements
-#projects         → Cross-project updates
-#[project-name]   → Per-project channel (e.g. #wonn-payment)
-#ops              → Studio operations, admin
-#inspiration      → References, creative fuel
-#random           → Everything else
-```
+## Message Standards
 
-### Per-Project Channel Convention
-Every active project gets one channel. No sub-channels unless the team exceeds 5 people.
+- **Decisions** go in the relevant project channel, not DMs
+- **Action items** are explicit: "@name will do X by Y date"
+- **Status updates** use consistent format: Done / In progress / Blocked
+- **Files** linked, not attached — keep Slack lean
 
----
+## Async Norms
 
-## Communication Standards
-
-**Default to async** — not every message needs an immediate response.
-**Threads** — always reply in thread to keep channels scannable.
-**Status updates** — use a consistent format:
-```
-📍 [Project] — [Date]
-Done: ...
-Next: ...
-Blocked: ... (if any)
-```
-
-**Decisions** — document in thread, pin important ones.
-
----
-
-## Message Templates
-
-### Project Kickoff
-```
-🚀 [Project Name] is live.
-Client: [Name]
-Scope: [One line]
-Timeline: [Start → End]
-Key contacts: [Names]
-Folder: [Link]
-```
-
-### Handoff to Freelancer
-```
-Hey [Name] — brief for [task]:
-Context: [1-2 sentences]
-Deliverable: [Exact output]
-Deadline: [Date + time]
-Assets: [Link]
-Questions to: [Who]
-```
+- Response expectation: within same working day for non-urgent
+- Urgent = phone or voice note, not Slack
+- Long discussions → move to a call, summarize outcome in Slack
+- No decision-by-Slack for anything that affects scope or timeline

@@ -1,56 +1,44 @@
 ---
 name: bb-ops-linear
-description: "Activate for project tracking, sprint planning, task creation, milestone definition, and progress monitoring. Also activates when a project's status is unclear or tasks are falling through the cracks."
+description: "Activate for project tracking, sprint setup, task management, milestone planning, and when a project needs structure or visibility."
 ---
 
 # bb-ops-linear
 
-Linear is the studio's source of truth for what's happening, what's next, and what's blocked.
-
----
-
-## Core Principle
-
-A task that isn't in Linear doesn't exist. A deadline that isn't in Linear isn't real.
-
----
+Linear is the studio's project memory. If it's not in Linear, it doesn't exist.
 
 ## Project Structure
 
 ```
-Project
-├── Milestones   → Major deliverable gates (Discovery, Strategy, Identity, etc.)
-├── Cycles       → 1-2 week sprints
-└── Issues       → Individual tasks
+Project → Milestones → Issues → Sub-tasks
 ```
 
-### Issue Standard
+Every client engagement is a Linear project. Every deliverable is an issue.
+
+## Issue Standards
+
 Every issue must have:
-- **Title:** Action verb + deliverable (e.g. "Write brand positioning statement")
-- **Assignee:** One person responsible
-- **Due date:** Real deadline, not aspirational
-- **Priority:** Urgent / High / Medium / Low
-- **Labels:** Phase label (Discovery, Strategy, Identity, etc.)
+- **Title:** Action-oriented ("Design homepage hero" not "Homepage")
+- **Status:** Backlog / In Progress / In Review / Done
+- **Owner:** One person, not a team
+- **Due date:** Realistic, not aspirational
+- **Description:** What done looks like
 
-Issues without assignees or due dates don't get done.
+## Milestone Planning
 
----
+Milestones map to client deliverables — not internal phases.
+Client sees milestone completion. Internal tasks are beneath it.
 
-## Milestone Convention
-
-| Milestone | Marks |
-|---|---|
-| Discovery Complete | All research done, brief validated |
-| Strategy Approved | Positioning, TOV, USP signed off by client |
-| Identity Approved | Visual identity signed off by client |
-| Production Complete | All assets delivered |
-| Project Closed | Invoice paid, files archived |
-
----
+```
+Milestone: Brand Strategy Delivered
+  ├── Issue: Competitor analysis
+  ├── Issue: Positioning territories
+  ├── Issue: TOV framework
+  └── Issue: Strategy presentation
+```
 
 ## Weekly Rhythm
 
-**Monday:** Review open issues, set week priorities
-**Friday:** Update statuses, flag blockers for next week
-
-If a project has no Linear activity in 5 days — something is wrong.
+- Monday: review active issues, clear blockers
+- Friday: update status, flag anything slipping
+- Milestone completion: update client via `bb-client-comms`

@@ -1,46 +1,44 @@
 ---
 name: bb-dp-3d
-description: "Activate for 3D modeling decisions, tool selection between Cinema 4D, Blender, Plasticity, and Shapr3D, and 3D production briefs. Also activates when evaluating whether 3D is the right approach for a visual production need."
+version: 1.0
+updated: 2026-03
+status: active
 ---
 
 # bb-dp-3d
 
-3D is a production commitment. The decision to use 3D is a timeline and cost decision as much as a creative decision.
-
----
+3D production is expensive. Every 3D project needs a clear brief and a clear purpose before a single polygon is made.
 
 ## Tool Selection
 
 | Tool | Best for |
 |---|---|
-| **Cinema 4D** | Brand visualization, motion graphics 3D, product renders |
-| **Blender** | Full 3D production, VFX, open-source pipeline |
-| **Plasticity** | Hard surface modeling, industrial/product design |
-| **Shapr3D** | CAD-level precision, engineering-adjacent design |
+| Cinema 4D | Motion graphics, product vis, brand 3D, rendering |
+| Blender | Open-source, complex scenes, game assets, sculpting |
+| Plasticity | Industrial/product design, hard surface modeling |
+| Shapr3D | iPad-based CAD, early-stage product modeling |
 
-Match the tool to the output need — not to what the designer knows best.
+## 3D Brief Standard
 
----
-
-## 3D Production Brief Standard
-
+Before starting any 3D work:
 ```
-PURPOSE         — Why 3D? What does it achieve that 2D can't?
-OUTPUT          — Still render / animation / real-time / web embed
-STYLE           — Photorealistic / stylized / abstract (with references)
-DELIVERABLES    — File formats, resolutions, number of renders/variations
-TIMELINE        — Realistic — 3D takes longer than expected
-TOOL            — Which tool and why
+PURPOSE     — What is this 3D asset for?
+OUTPUT      — Still / animation / real-time / print
+STYLE       — Photorealistic / stylized / technical / abstract
+REFERENCE   — Visual reference provided
+DEADLINE    — Hard delivery date
+FILE FORMAT — What format does the downstream tool need?
 ```
 
-Never start 3D production without a signed-off brief. 3D revisions are expensive.
+## Production Standards
 
----
+- Naming convention: objects, materials, and lights all named before rendering
+- Scene organization: groups and layers logical and documented
+- Render settings: defined upfront, not adjusted at deadline
+- File backup: project files archived, not just rendered outputs
 
-## Push Back Triggers
+## Handoff
 
-**"Can we make it 3D?"**
-> 3D adds timeline and cost. What does 3D achieve here that a strong 2D execution can't? If there's a clear answer, 3D is right. If not, let's stay 2D and use the budget on quality.
-
-**"Just render a few quick options"**
-> 3D renders are never quick. Even a "simple" render requires modeling, lighting, and rendering time. Let's agree on direction first, then render once.
+- `bb-dp-spline` — if 3D moves to web
+- `bb-dp-cavalry` — if 3D moves to motion graphics
+- `bb-visual-production` — rendered 3D as production asset

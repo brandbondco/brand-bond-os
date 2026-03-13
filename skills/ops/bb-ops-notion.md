@@ -1,55 +1,43 @@
 ---
 name: bb-ops-notion
-description: "Activate for documentation, internal wiki, client portals, project briefs, and knowledge management. Use when information needs to be structured, shared, or preserved."
+description: "Activate for documentation, studio wiki, client portals, knowledge base setup, and any structured information that needs to live beyond a single conversation."
 ---
 
 # bb-ops-notion
 
-Notion is for information that needs to live longer than a Slack message and be found by someone other than the person who wrote it.
+Notion is the studio's long-term memory. Linear tracks work. Notion holds knowledge.
 
----
+## What Lives in Notion
 
-## Core Principle
+| Type | Example |
+|---|---|
+| Client portals | Deliverable archive, feedback history, decisions log |
+| Studio processes | How we run discovery, how we write briefs |
+| Brand OS docs | Skill documentation, agent references |
+| Templates | Brief templates, proposal structures |
+| Research | Market research, competitor files |
 
-If it's worth knowing, it's worth documenting. Undocumented decisions create repeated conversations.
+## What Does NOT Live in Notion
 
----
-
-## Studio Structure
-
-```
-Brand & Bond OS
-├── Studio            → About BB, values, processes
-├── Clients           → Per-client workspaces
-│   └── [Client]      → Brief, strategy docs, feedback logs
-├── Projects          → Active project hubs
-├── Templates         → Reusable doc templates
-└── Archive           → Completed projects
-```
-
----
+- Active task tracking → Linear
+- Quick team communication → Slack
+- Design files → Figma
+- Financial records → Dedicated accounting tool
 
 ## Documentation Standards
 
-**Every client workspace contains:**
-- Discovery brief
-- Strategy document (living)
-- Decision log (what was decided and why)
-- Feedback log (client feedback, dated)
-- File links (Figma, Drive, etc.)
+- Every page has an owner and a last-updated date
+- Table of contents for anything over 3 sections
+- Templates over blank pages — always start from structure
+- Archive, don't delete — outdated docs move to archive, not trash
 
-**Decision Log Format:**
+## Client Portal Structure
+
 ```
-Date | Decision | Rationale | Decided by
+[Client Name]/
+├── Project Brief
+├── Deliverables (linked from Figma/Drive)
+├── Feedback Log
+├── Decision Log
+└── Meeting Notes
 ```
-
-Decisions without rationale get relitigated. Write the why.
-
----
-
-## Client Portal
-
-When a client needs visibility:
-- Share only the relevant workspace page
-- Keep internal notes in a separate, non-shared section
-- Use "Last updated" date prominently — clients need to know it's current

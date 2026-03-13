@@ -1,45 +1,39 @@
 ---
 name: bb-dp-cavalry
-description: "Activate for motion graphics production, data-driven animation, and procedural animation systems. Use when animation needs to be generated from data or when motion graphics need to scale across many variations."
+version: 1.0
+updated: 2026-03
+status: active
 ---
 
 # bb-dp-cavalry
 
-Cavalry is for animation that scales. If you're building one animation manually, use After Effects. Use Cavalry when the animation system needs to produce multiple outputs or respond to data.
+Cavalry is for motion that scales. Data-driven, template-driven, system-driven animation.
 
----
+## When to Use Cavalry
 
-## Core Principle
+- Animated infographics and data visualization
+- Templated social content (many variations from one design)
+- Motion graphics that update with live or variable data
+- Complex timeline animation beyond Rive's scope
 
-Cavalry's value is in the system, not the single output. Design the system logic before animating.
+## Animation Standards
 
----
+- Define the data structure before animating
+- Build templates that non-animators can update
+- Export format depends on destination:
+  - Social: MP4 H.264, correct platform dimensions
+  - Web: WebM or optimized GIF (if small)
+  - Broadcast: ProRes or DNxHD
 
-## When Cavalry is the Right Choice
+## Motion Principles (Brand-consistent)
 
-| Use case | Cavalry fit |
-|---|---|
-| Data-driven infographic animation | ✅ |
-| Multiple variations from one system | ✅ |
-| Procedural motion graphics | ✅ |
-| One-off hero animation | ❌ Use After Effects |
-| Simple logo animation | ❌ Use After Effects or Rive |
+- Motion reflects brand personality — confident, direct, not playful
+- No gratuitous animation. Every move has a reason.
+- Timing: decisive. Not too slow (boring), not too fast (chaotic).
+- Color: brand tokens only, even in animation
 
----
+## Handoff
 
-## System Design First
-
-Before opening Cavalry:
-1. What data drives the animation? (define the data structure)
-2. What are the output variations needed?
-3. What stays constant vs what changes per variation?
-4. What's the delivery format? (video, GIF, image sequence)
-
----
-
-## Output Standards
-
-- Export at 2x for retina where applicable
-- Color profile: sRGB for digital
-- Frame rate: 24fps (cinematic) or 30fps (digital/social)
-- Codec: H.264 for social, ProRes for broadcast/print production
+- `bb-visual-production` — animation brief before Cavalry production
+- `bb-dp-rive` — if animation needs to be interactive
+- Social team — for platform-specific export specs
