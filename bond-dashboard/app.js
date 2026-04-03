@@ -90,7 +90,7 @@ function connect(url) {
   try {
     ws = new WebSocket(url);
   } catch(e) {
-    setConnStatus('error', 'Geçersiz URL: ' + e.message);
+    setConnStatus('error', 'Invalid URL: ' + e.message);
     return;
   }
 
@@ -108,7 +108,7 @@ function connect(url) {
       const event = JSON.parse(evt.data);
       handleEvent(event);
     } catch(e) {
-      console.warn('Parse hatası:', e);
+      console.warn('Parse error:', e);
     }
   });
 
@@ -278,7 +278,7 @@ function onAgentDone(e) {
 function onAgentError(e) {
   const { agent_id } = e;
   if (flowNodes[agent_id]) setNodeState(agent_id, 'error');
-  addTraceEntry(e.agent_name || agent_id, 'Hata: ' + (e.error || '—'), [{ label:'error', cls:'err' }], ts());
+  addTraceEntry(e.agent_name || agent_id, 'Error: ' + (e.error || '—'), [{ label:'error', cls:'err' }], ts());
 }
 
 function onToolCall(e) {
@@ -290,7 +290,7 @@ function onToolCall(e) {
   const el = document.getElementById('lc-' + l);
   if (el) el.textContent = layerCounts[l];
 
-  addTraceEntry(agent || tool, action || 'Araç çağrısı: ' + tool, [
+  addTraceEntry(agent || tool, action || 'Tool call: ' + tool, [
     { label: tool, cls:'tool' },
     { label: status === 'ok' ? '✓' : status || '...', cls: status==='ok'?'ok':'' }
   ], ts());
@@ -325,7 +325,7 @@ function onSpotlight(e) {
 
 function onSystem(e) {
   if (e.monitors !== undefined) {
-    monitorCount.textContent = e.monitors + ' monitör aktif';
+    monitorCount.textContent = e.monitors + ' monitor active';
   }
 }
 
