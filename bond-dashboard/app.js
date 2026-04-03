@@ -72,7 +72,7 @@ document.getElementById('disconnectBtn').addEventListener('click', () => {
 });
 
 document.getElementById('resetBtn').addEventListener('click', () => {
-  fetch(wsUrl.replace('ws://', 'http://').replace('/ws', '/reset'), { method:'POST' })
+  fetch(wsUrl.replace('wss://', 'https://').replace('ws://', 'http://').replace('/ws', '/reset'), { method:'POST' })
     .catch(() => {});
   resetSession();
 });
