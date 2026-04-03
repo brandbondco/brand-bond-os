@@ -2,11 +2,30 @@
 
 ## Trace Standartları
 
-Her ajan aksiyonu için zorunlu alanlar:
+İki katmanlı trace sistemi kullanılır:
+
+### Katman 1 — Emit (Dashboard'a gönderilir)
+
+Hafif payload — gerçek zamanlı izleme için. `bond-emit.sh` helper ile atılır.
+
+| Alan | Zorunlu | Açıklama |
+|---|---|---|
+| `type` | ✅ | Event türü (TASK_START, AGENT_ACTIVE, vb.) |
+| `trace_id` | ✅ | Görev kimliği — tüm zinciri bağlar |
+| `agent_id` | ✅ | Hangi ajan |
+| `agent_name` | ✅ | Ajan görünür adı |
+| `layer` | ✅ | bond · master · sub · memory · ops · tool |
+| `action` | ✅ | Ne yapıyor (kısa) |
+| `progress` | ✅ | 0-100 |
+| `ts` | ✅ | Unix ms |
+
+### Katman 2 — İç Log (Sistem hafızasında tutulur)
+
+Detaylı trace — debug, kalite analizi ve memory engine için.
 
 | Alan | Açıklama |
 |---|---|
-| `trace_id` | Oturum kimliği — tüm zinciri bağlar |
+| `trace_id` | Emit ile aynı |
 | `agent_id` | Hangi ajan çalıştı |
 | `reasoning` | Neden bu kararı aldı |
 | `input` | Ne aldı |
@@ -16,6 +35,8 @@ Her ajan aksiyonu için zorunlu alanlar:
 | `duration_ms` | Süre |
 | `quality_score` | Çıktı kalite skoru (0-1) |
 | `dna_version` | Hangi DNA snapshot kullanıldı |
+
+> Emit hafif kalır, iç log detaylı olur. İkisi aynı `trace_id` ile bağlıdır.
 
 ## Memory Keeper — Observability Tetikleyicileri
 

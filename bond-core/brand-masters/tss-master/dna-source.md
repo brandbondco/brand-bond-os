@@ -18,8 +18,19 @@ Canlı kaynak: https://www.notion.so/33702474a13781e7a3d6d68cf0379973
 
 `brand-memory/tss/dna-snapshot/`
 
+## Fetch Zinciri
+
+```
+BOND → Memory Agent (Notion fetch) → TSS Master (DNA bağlamı) → Subagents
+```
+
+- Memory Agent Notion'dan çeker, TSS Master bağlamı dağıtır
+- Subagents asla direkt Notion'a bağlanmaz
+- Voice Agent, Design Agent, Research Agent → DNA'yı TSS Master'dan alır
+
 ## Fetch Protokolü
 
-1. Her görev başında `04 · Memory Sync Log` sayfasındaki `sync.last_date` oku
-2. Snapshot bu tarihten daha eskiyse Memory Keeper'ı uyar
-3. Güncel snapshot yoksa → fallback-protocol.md
+1. Her görev başında Memory Agent `04 · Memory Sync Log` sayfasındaki `sync.last_date` okur
+2. Snapshot bu tarihten daha eskiyse Memory Agent farkı bildirir
+3. TSS Master onay verir → snapshot güncellenir
+4. Güncel snapshot yoksa → fallback-protocol.md (son geçerli snapshot kullanılır)

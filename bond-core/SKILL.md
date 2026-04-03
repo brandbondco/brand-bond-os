@@ -89,11 +89,38 @@ curl -s -X POST https://agent.brand.bond/event \
 ### Layer Değerleri
 `bond` · `master` · `sub` · `memory` · `ops` · `tool`
 
+### Emit Helper
+
+Her oturumun başında `bond-emit.sh` yüklenir:
+
+```bash
+source /home/user/workspace/bond-emit.sh
+```
+
+Kullanılabilir fonksiyonlar:
+
+| Fonksiyon | Açıklama |
+|---|---|
+| `bond_start "intent" [brand]` | TASK_START + BOND AGENT_ACTIVE emitlerini atar. trace_id ve başlangıç zamanını otomatik üretir. |
+| `bond_agent id name layer action [progress]` | AGENT_ACTIVE emiti atar. |
+| `bond_agent_done id name layer result` | AGENT_DONE emiti atar (progress=100). |
+| `bond_tool tool agent action [status]` | TOOL_CALL emiti atar. |
+| `bond_end "preview" [score]` | TASK_COMPLETE emiti atar. Süreyi otomatik hesaplar. |
+
+Tüm emitler tek bir bash çağrısında toplanabilir — performans için tercih edilen yöntem budur.
+
 ### Minimum Emit (Basit Görev)
 En basit görevde bile şu 3 emit zorunludur:
 1. `TASK_START` — görev başında
 2. `AGENT_ACTIVE` (BOND layer) — analiz aşamasında
 3. `TASK_COMPLETE` — yanıt verilmeden hemen önce
+
+Minimum emit helper ile:
+```bash
+source /home/user/workspace/bond-emit.sh
+bond_start "intent"
+bond_end "özet"
+```
 
 ## Bağlı Modüller
 
