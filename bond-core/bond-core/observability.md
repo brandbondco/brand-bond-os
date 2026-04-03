@@ -1,42 +1,20 @@
 # Observability
 
-## Trace Standartları
-
-İki katmanlı trace sistemi kullanılır:
-
-### Katman 1 — Emit (Dashboard'a gönderilir)
-
-Hafif payload — gerçek zamanlı izleme için. `bond-emit.sh` helper ile atılır.
-
-| Alan | Zorunlu | Açıklama |
-|---|---|---|
-| `type` | ✅ | Event türü (TASK_START, AGENT_ACTIVE, vb.) |
-| `trace_id` | ✅ | Görev kimliği — tüm zinciri bağlar |
-| `agent_id` | ✅ | Hangi ajan |
-| `agent_name` | ✅ | Ajan görünür adı |
-| `layer` | ✅ | bond · master · sub · memory · ops · tool |
-| `action` | ✅ | Ne yapıyor (kısa) |
-| `progress` | ✅ | 0-100 |
-| `ts` | ✅ | Unix ms |
-
-### Katman 2 — İç Log (Sistem hafızasında tutulur)
+## İç Log (Sistem hafızasında tutulur)
 
 Detaylı trace — debug, kalite analizi ve memory engine için.
 
 | Alan | Açıklama |
 |---|---|
-| `trace_id` | Emit ile aynı |
+| `trace_id` | Görev kimliği — tüm zinciri bağlar |
 | `agent_id` | Hangi ajan çalıştı |
 | `reasoning` | Neden bu kararı aldı |
 | `input` | Ne aldı |
 | `output` | Ne üretti |
 | `tool_calls` | Hangi araçları çağırdı |
-| `token_usage` | Token maliyeti |
 | `duration_ms` | Süre |
 | `quality_score` | Çıktı kalite skoru (0-1) |
 | `dna_version` | Hangi DNA snapshot kullanıldı |
-
-> Emit hafif kalır, iç log detaylı olur. İkisi aynı `trace_id` ile bağlıdır.
 
 ## Memory Keeper — Observability Tetikleyicileri
 
@@ -44,52 +22,88 @@ Detaylı trace — debug, kalite analizi ve memory engine için.
 |---|---|
 | Aynı ajan 2+ kez aynı hatayı yaptı | BOND'a bildir |
 | Kalite skoru < 0.75 | BOND'a bildir |
-| Token kullanımı normalin 3x üstünde | BOND'a bildir |
 | DNA version uyumsuzluğu | Acil bildir |
 
-## Monitor Emit Protokolü
+## Layer Değerleri
 
-BOND her görevde aşağıdaki HTTP POST çağrılarını aşağıdaki endpoint'e gönderir.
-Monitör kapalıysa veya sunucu yanıt vermiyorsa sessizce devam edilir — hiçbir zaman bloklanmaz.
-
-**Aktif endpoint:** `https://agent.brand.bond/event`
-
-> Kalıcı URL — Cloudflare Tunnel üzerinden `bond-monitor` tüneline yönlendirilir.
-
-### Zorunlu Emit Noktaları
-
-| An | Event type | Zorunlu alanlar |
-|---|---|---|
-| Samet'ten talep alındı | `TASK_START` | `trace_id`, `brand`, `intent` |
-| Bir ajan aktive edildi | `AGENT_ACTIVE` | `agent_id`, `agent_name`, `layer`, `action`, `progress` |
-| Bir ajan tamamlandı | `AGENT_DONE` | `agent_id`, `duration_ms`, `quality_score` |
-| Araç çağrısı yapıldı | `TOOL_CALL` | `tool`, `agent`, `status` |
-| Önemli bir log satırı | `TRACE_LOG` | `agent`, `message`, `tags` |
-| Görev tamamlandı | `TASK_COMPLETE` | `trace_id`, `duration_ms`, `quality_score` |
-| Hata oluştu | `AGENT_ERROR` | `agent_id`, `error` |
-
-### Layer Değerleri
 `bond` · `master` · `sub` · `memory` · `ops` · `tool`
 
-### Emit Formatı
+## Monitor Emit — AKTİF
+
+BOND her oturumda monitor'e otomatik event gönderir.
+
+### Bağlantı Protokolü
+
 ```
-POST https://agent.brand.bond/event
-Content-Type: application/json
+1. BOND aktive olduğunda (Samet "BOND" yazdığında):
+   → Monitor tunnel URL'ini memory'den oku
+   → Yoksa Samet'e sor: "Monitor tunnel URL?"
+   → URL alındığında /status endpoint'ini test et (curl)
+   → 200 dönerse → emit aktif
+   → Başarısız → "Monitor erişilemiyor — emit devre dışı" bildir, göreve devam et
 
-{
-  "type": "AGENT_ACTIVE",
-  "agent_id": "bond",
-  "agent_name": "BOND",
-  "layer": "bond",
-  "action": "Talep analizi — marka ve niyet tespiti",
-  "progress": 10,
-  "ts": <unix_ms>
-}
+2. Tunnel URL formatı:
+   https://[subdomain].trycloudflare.com
+   
+3. Bağlantı doğrulandığında:
+   → SYSTEM event gönder: {type: "SYSTEM", message: "BOND oturum başlatıldı"}
+   → POST /reset ile önceki oturumu temizle
 ```
 
-### trace_id Üretimi
-Her görev başında: `tr_` + 8 rastgele alfanümerik karakter (örn: `tr_a3f9k2m1`)
-Aynı trace_id tüm emit çağrılarında kullanılır.
+### Emit Kuralları
 
-### Fallback
-Sunucu yanıt vermezse (timeout 2s) → sessizce devam et, Samet'e bildirme.
+BOND her görev akışında aşağıdaki event'leri **otomatik** gönderir:
+
+```
+Görev başladığında:
+  → POST /event {type: "TASK_START", trace_id, brand, intent, input}
+
+Her ajan aktive edildiğinde:
+  → POST /event {type: "AGENT_ACTIVE", agent_id, agent_name, layer, action, progress}
+
+Her ajan tamamlandığında:
+  → POST /event {type: "AGENT_DONE", agent_id, agent_name, duration_ms, quality_score}
+
+Her ajan hata verdiğinde:
+  → POST /event {type: "AGENT_ERROR", agent_id, agent_name, error}
+
+Her araç çağrısında:
+  → POST /event {type: "TOOL_CALL", tool, agent, action, status}
+
+Önemli akış noktalarında:
+  → POST /event {type: "TRACE_LOG", agent, message, tags}
+
+Spotlight güncellemelerinde:
+  → POST /event {type: "SPOTLIGHT", agent, action, progress, score}
+
+Görev tamamlandığında:
+  → POST /event {type: "TASK_COMPLETE", trace_id, duration_ms, quality_score, output_preview}
+```
+
+### Emit Yöntemi
+
+BOND `bash` tool ile `curl` kullanarak POST gönderir:
+
+```bash
+curl -s -X POST "$MONITOR_URL/event" \
+  -H "Content-Type: application/json" \
+  -d '{"type": "...", ...}'
+```
+
+### Progress Değerleri
+
+| Aşama | Progress |
+|---|---|
+| BOND talep aldı | 5 |
+| Brand Router çalıştı | 10 |
+| Brand Master aktif | 15 |
+| Memory Agent DNA fetch | 25 |
+| Subagents tetiklendi | 40-60 |
+| Subagents tamamlandı | 70-85 |
+| Quality Gate | 90 |
+| Görev tamamlandı | 100 |
+
+### Hata Toleransı
+
+Monitor erişilemezse BOND çalışmaya devam eder — emit başarısız olursa sessizce geçilir.
+Monitor hiçbir zaman BOND'un ana akışını bloklamaz.
