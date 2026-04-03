@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BOND OS — Live Monitor</title>
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700&f[]=cabinet-grotesk@700,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- CONNECTION OVERLAY -->
+  <div class="conn-overlay" id="connOverlay">
+    <div class="conn-box">
+      <svg class="conn-logo" viewBox="0 0 32 32" fill="none">
+        <rect x="1" y="1" width="30" height="30" rx="6" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M8 16 L14 10 L20 16 L14 22 Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+        <circle cx="24" cy="16" r="2" fill="currentColor"/>
+      </svg>
+      <div class="conn-title">BOND OS Monitor</div>
+      <div class="conn-sub">WebSocket sunucusuna bağlanılıyor...</div>
+      <div class="conn-input-row">
+        <input
+          type="text"
+          id="wsUrl"
+          class="conn-input"
+          placeholder="ws://localhost:3131/ws"
+          value="ws://localhost:3131/ws"
+        />
+        <button class="conn-btn" id="connectBtn">Bağlan</button>
+      </div>
+      <div class="conn-status" id="connStatus"></div>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="header" id="mainHeader" style="display:none">
+    <div class="header-left">
+      <svg class="logo" viewBox="0 0 32 32" fill="none" aria-label="BOND OS">
+        <rect x="1" y="1" width="30" height="30" rx="6" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M8 16 L14 10 L20 16 L14 22 Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+        <circle cx="24" cy="16" r="2" fill="currentColor"/>
+      </svg>
+      <span class="logo-text">BOND<span class="logo-os"> OS</span></span>
+      <span class="live-badge">
+        <span class="live-dot"></span>LIVE
+      </span>
+    </div>
+
+    <div class="header-center">
+      <div class="system-status" id="systemStatus">
+        <span class="sys-dot" id="sysDot"></span>
+        <span id="sysLabel">Sistem aktif</span>
+      </div>
+      <div class="trace-pill" id="tracePill">trace_id: —</div>
+    </div>
+
+    <div class="header-right">
+      <span class="ws-indicator" id="wsIndicator">
+        <span class="ws-dot connected"></span>
+        <span id="wsLabel">Bağlı</span>
+      </span>
+      <span class="version-tag">v0.6</span>
+      <button class="icon-btn" id="resetBtn" title="Oturumu temizle">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+      </button>
+      <button class="icon-btn" data-theme-toggle title="Tema değiştir">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <button class="icon-btn" id="disconnectBtn" title="Bağlantıyı kes">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="main" id="mainContent" style="display:none">
+
+    <!-- FLOW COLUMN -->
+    <section class="col col-flow">
+      <div class="col-header">
+        <span class="col-label">Ajan Akışı</span>
+        <span class="col-meta" id="flowMeta">—</span>
+      </div>
+      <div class="flow-area" id="flowArea">
+        <div class="flow-idle" id="flowIdle">
+          <div class="idle-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 6v6l4 2"/>
+            </svg>
+          </div>
+          <p>BOND talep bekleniyor</p>
+          <span>WebSocket aktif — event geldiğinde akış başlar</span>
+        </div>
+      </div>
+
+      <!-- ACTIVE AGENT BAR -->
+      <div class="agent-bar" id="agentBar" style="display:none">
+        <div class="agent-bar-inner">
+          <div class="ab-left">
+            <span class="ab-name" id="abName">—</span>
+            <span class="ab-action" id="abAction">—</span>
+          </div>
+          <div class="ab-right">
+            <span class="ab-score" id="abScore" style="display:none"></span>
+          </div>
+        </div>
+        <div class="ab-progress-track">
+          <div class="ab-progress-bar" id="abProgress"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRACE COLUMN -->
+    <section class="col col-trace">
+      <div class="col-header">
+        <span class="col-label">Trace Log</span>
+        <div class="col-actions">
+          <span class="event-count" id="eventCount">0 event</span>
+          <button class="text-btn" id="clearLogBtn">Temizle</button>
+        </div>
+      </div>
+      <div class="trace-area" id="traceArea">
+        <div class="trace-empty" id="traceEmpty">Event bekleniyor</div>
+      </div>
+    </section>
+
+    <!-- METRICS COLUMN -->
+    <section class="col col-metrics">
+      <div class="col-header">
+        <span class="col-label">Metrikler</span>
+        <span class="col-meta" id="sessionDuration">—</span>
+      </div>
+
+      <div class="metrics-stack">
+        <div class="metric-block">
+          <div class="metric-val" id="mTasks">0</div>
+          <div class="metric-label">Görev</div>
+          <div class="metric-sub" id="mTasksSub">Bu oturumda</div>
+        </div>
+        <div class="metric-block">
+          <div class="metric-val" id="mAgents">0</div>
+          <div class="metric-label">Aktif Ajan</div>
+          <div class="metric-sub" id="mAgentsSub">—</div>
+        </div>
+        <div class="metric-block">
+          <div class="metric-val score-val" id="mScore">—</div>
+          <div class="metric-label">Son Kalite</div>
+          <div class="metric-sub" id="mScoreSub">quality_score</div>
+        </div>
+        <div class="metric-block">
+          <div class="metric-val" id="mDuration">—</div>
+          <div class="metric-label">Son Süre</div>
+          <div class="metric-sub">ms</div>
+        </div>
+      </div>
+
+      <!-- LAYER ACTIVITY -->
+      <div class="layer-section">
+        <div class="layer-title">Katman Aktivitesi</div>
+        <div class="layer-list" id="layerList">
+          <div class="layer-row" data-layer="bond">
+            <span class="layer-dot" style="background:var(--c-teal)"></span>
+            <span class="layer-name">BOND</span>
+            <span class="layer-count" id="lc-bond">0</span>
+          </div>
+          <div class="layer-row" data-layer="master">
+            <span class="layer-dot" style="background:var(--c-purple)"></span>
+            <span class="layer-name">Brand Master</span>
+            <span class="layer-count" id="lc-master">0</span>
+          </div>
+          <div class="layer-row" data-layer="sub">
+            <span class="layer-dot" style="background:var(--c-blue)"></span>
+            <span class="layer-name">Subagent</span>
+            <span class="layer-count" id="lc-sub">0</span>
+          </div>
+          <div class="layer-row" data-layer="memory">
+            <span class="layer-dot" style="background:var(--c-orange)"></span>
+            <span class="layer-name">Memory</span>
+            <span class="layer-count" id="lc-memory">0</span>
+          </div>
+          <div class="layer-row" data-layer="ops">
+            <span class="layer-dot" style="background:var(--c-green)"></span>
+            <span class="layer-name">Ops</span>
+            <span class="layer-count" id="lc-ops">0</span>
+          </div>
+          <div class="layer-row" data-layer="tool">
+            <span class="layer-dot" style="background:var(--c-yellow)"></span>
+            <span class="layer-name">Tool</span>
+            <span class="layer-count" id="lc-tool">0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RECENT TOOLS -->
+      <div class="tools-section">
+        <div class="layer-title">Araç Çağrıları</div>
+        <div class="tools-list" id="toolsList">
+          <div class="tools-empty">Henüz araç çağrısı yok</div>
+        </div>
+      </div>
+
+      <!-- CONN INFO -->
+      <div class="conn-info-block">
+        <div class="layer-title">Bağlantı</div>
+        <div class="conn-detail" id="connDetail">—</div>
+        <div class="conn-monitors">
+          <span class="layer-dot" style="background:var(--c-green)"></span>
+          <span id="monitorCount">1 monitör aktif</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
