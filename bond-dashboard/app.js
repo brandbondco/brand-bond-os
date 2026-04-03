@@ -205,6 +205,10 @@ function onTaskStart(e) {
   ], ts());
 }
 
+// Agents whose activity should count toward the DNA Sync (memory) layer
+// regardless of the layer value sent in the emit.
+const DNA_SYNC_AGENTS = new Set(['memory-agent', 'memory-keeper']);
+
 function onAgentActive(e) {
   const { agent_id, agent_name, layer, action } = e;
 
@@ -237,8 +241,8 @@ function onAgentActive(e) {
   setSpotlight(agent_name, action, e.progress || 0);
   mAgentsSub.textContent = agent_name;
 
-  // Layer count
-  const l = layerKey(layer);
+  // Layer count — route DNA Sync agents to the memory layer
+  const l = DNA_SYNC_AGENTS.has(agent_id) ? 'memory' : layerKey(layer);
   if (l) {
     layerCounts[l]++;
     const el = document.getElementById('lc-' + l);
